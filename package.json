@@ -1,9 +1,12 @@
 {
   "name": "bookstore-api",
   "version": "1.0.0",
-  "description": "Training Front-End 101 - Call API. Server side.",
+  "description": "Training Front-End 101 - Call API (Server-side).",
   "main": "index.js",
-  "scripts": {},
+  "scripts": {
+    "migrate": "./node_modules/.bin/knex migrate:latest",
+    "seed": "./node_modules/.bin/knex seed:run"
+  },
   "author": "Nam Vo <vhnam2504@gmail.com>",
   "license": "ISC",
   "dependencies": {
