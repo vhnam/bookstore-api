@@ -11,10 +11,14 @@ const bodyParser = require('body-parser');
 const errorHandler = require('errorhandler');
 const logger = require('winston');
 const helmet = require('helmet');
+const Knex = require('knex');
+const { Model } = require('objection');
 
-const config = require('./config');
+const knexConfig = require('./knexfile');
+const knex = Knex(knexConfig[process.env.NODE_ENV || 'development']);
+Model.knex(knex);
 
-const apiVersion = config.API_VERSION;
+const apiVersion = process.env.API_VERSION;
 const router = require(`./routes/${apiVersion}`);
 
 logger.add(new logger.transports.File({ filename: 'combined.log' }));
@@ -43,11 +47,10 @@ app.use((req, res, next) => {
 });
 
 // error handler
-const port = config.API_PORT;
 app.use(errorHandler());
-app.set('port', port);
+app.set('port', process.env.API_PORT || 3000);
 app.listen(app.get('port'), () => {
-  logger.info(`Express server listening on port ${port}`);
+  logger.info(`Express server listening on port ${app.get('port')}`);
 });
 
 module.exports = app;
