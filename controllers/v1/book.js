@@ -1,15 +1,36 @@
 const bookService = require('../../services/BookService');
+const HttpStatus = require('../../utils/HttpStatus');
+const DateFormatter = require('../../utils/DateFormatter');
 
 module.exports = {
-  list: async (req, res) => {
+  index: async (req, res) => {
     try {
-      const page = parseInt(req.query.page);
-      const limit = parseInt(req.query.limit);
-
-      const books = await bookService.list(page, limit);
-      res.status(200).json(books);
+      const { page, limit, title } = req.query;
+      const books = await bookService.index(page, limit, title);
+      res.status(HttpStatus.Ok).send(books);
     } catch (err) {
-      res.status(400).json({ message: err.message });
+      throw err;
+    }
+  },
+
+  show: async (req, res) => {
+    try {
+      const { id } = req.params;
+      const book = await bookService.show(id);
+      res.status(HttpStatus.Ok).send(book);
+    } catch (err) {
+      throw err;
+    }
+  },
+
+  create: async (req, res) => {
+    try {
+      const { pubdate, ...params } = req.body;
+      const newPubDate = DateFormatter.toString(pubdate);
+      const book = await bookService.create({ pubdate: newPubDate, ...params });
+      res.status(HttpStatus.Created).send({ ISBN: book.ISBN });
+    } catch (err) {
+      throw err;
     }
   }
 };

@@ -1,4 +1,9 @@
-const { validationResult, check } = require('express-validator/check');
+const {
+  validationResult,
+  body,
+  param,
+  query
+} = require('express-validator/check');
 
 const validate = (req, res, next) => {
   const errors = validationResult(req);
@@ -11,5 +16,31 @@ const validate = (req, res, next) => {
 };
 
 module.exports = {
-  list: [[check('page').exists(), check('limit').exists()], validate]
+  index: [
+    [
+      query('page')
+        .exists()
+        .isInt(),
+      query('limit')
+        .exists()
+        .isInt()
+    ],
+    validate
+  ],
+
+  show: [[param('id').isString()], validate],
+
+  create: [
+    [
+      body('ISBN').isString(),
+      body('title').isString(),
+      body('description').isString(),
+      body('price').isString(),
+      body('publisher').isString(),
+      body('pubdate').isNumeric(),
+      body('edition').isString(),
+      body('pages').isString()
+    ],
+    validate
+  ]
 };

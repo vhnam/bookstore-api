@@ -13,6 +13,7 @@ const logger = require('winston');
 const helmet = require('helmet');
 const Knex = require('knex');
 const { Model } = require('objection');
+const HttpStatus = require('./utils/HttpStatus');
 
 const knexConfig = require('./knexfile');
 const knex = Knex(knexConfig[process.env.NODE_ENV || 'development']);
@@ -42,7 +43,7 @@ app.use(`/api/${apiVersion}`, router);
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
   const err = new Error('Not Found');
-  err.status = 404;
+  err.status = HttpStatus.NotFound;
   next(err);
 });
 
