@@ -27,7 +27,6 @@ module.exports = {
   },
 
   create: async book => {
-    console.log(book);
     await transaction(Book, async (Book, trx) => {
       const newBook = await Book.query(trx).insert(book);
       return { newBook };

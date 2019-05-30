@@ -32,7 +32,6 @@ module.exports = {
 
   create: [
     [
-      body('AuthorID').isString(),
       body('nameF').isString(),
       body('nameL').isString()
     ],

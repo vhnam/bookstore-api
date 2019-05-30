@@ -1,5 +1,7 @@
 const { Model } = require('objection');
 
+const Book = require('./book');
+
 class Author extends Model {
   static tableName() {
     return 'bookauthors';
@@ -26,9 +28,9 @@ class Author extends Model {
     return {
       books: {
         relation: Model.ManyToManyRelation,
-        modelClass: 'Book',
+        modelClass: Book,
         join: {
-          from: 'booksauthors.AuthorID',
+          from: 'bookauthors.AuthorID',
           through: {
             from: 'bookauthorsbooks.AuthorID',
             to: 'bookauthorsbooks.ISBN'
