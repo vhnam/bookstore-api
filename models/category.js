@@ -21,20 +21,22 @@ class Category extends Model {
     };
   }
 
-  static relationMappings = {
-    books: {
-      relation: Model.ManyToManyRelation,
-      modelClass: 'Book',
-      join: {
-        from: 'bookcategories.CategoryID',
-        through: {
-          from: 'bookcategoriesbooks.CategoryID',
-          to: 'bookcategoriesbooks.ISBN'
-        },
-        to: 'bookdescriptions.ISBN'
+  static get relationMappings() {
+    return {
+      books: {
+        relation: Model.ManyToManyRelation,
+        modelClass: 'Book',
+        join: {
+          from: 'bookcategories.CategoryID',
+          through: {
+            from: 'bookcategoriesbooks.CategoryID',
+            to: 'bookcategoriesbooks.ISBN'
+          },
+          to: 'bookdescriptions.ISBN'
+        }
       }
-    }
-  };
+    };
+  }
 }
 
 module.exports = Category;

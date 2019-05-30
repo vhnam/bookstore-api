@@ -22,20 +22,22 @@ class Author extends Model {
     };
   }
 
-  static relationMappings = {
-    books: {
-      relation: Model.ManyToManyRelation,
-      modelClass: 'Book',
-      join: {
-        from: 'booksauthors.AuthorID',
-        through: {
-          from: 'bookauthorsbooks.AuthorID',
-          to: 'bookauthorsbooks.ISBN'
-        },
-        to: 'bookdescriptions.ISBN'
+  static get relationMappings() {
+    return {
+      books: {
+        relation: Model.ManyToManyRelation,
+        modelClass: 'Book',
+        join: {
+          from: 'booksauthors.AuthorID',
+          through: {
+            from: 'bookauthorsbooks.AuthorID',
+            to: 'bookauthorsbooks.ISBN'
+          },
+          to: 'bookdescriptions.ISBN'
+        }
       }
-    }
-  };
+    };
+  }
 }
 
 module.exports = Author;
